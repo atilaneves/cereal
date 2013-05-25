@@ -13,30 +13,31 @@ struct TestInU8: public TestCase {
 };
 REGISTER_TEST(in, TestInU8)
 
+template<typename T>
+struct TestInOut: public TestCase {
+    std::vector<T> _ins;
+    TestInOut(const std::vector<T>& ins):_ins(ins) { }
 
-struct TestInOutU8: public TestCase {
     virtual void test() override {
         Cerealiser cerealiser;
-        const std::vector<uint8_t> ins{2, 5, 7, 3};
-        for(const auto in: ins) cerealiser << in;
+        for(const auto in: _ins) cerealiser << in;
         Decerealiser decerealiser(cerealiser.getBytes());
-        std::vector<uint8_t> outs(4);
-        decerealiser >> outs[0] >> outs[1] >> outs[2] >> outs[3];
-        checkEqual(ins, outs);
+        std::vector<T> outs(_ins.size());
+        for(auto& out: outs) {
+            decerealiser >> out;
+        }
+        checkEqual(_ins, outs);
     }
+};
+
+
+struct TestInOutU8: public TestInOut<uint8_t> {
+    TestInOutU8():TestInOut<uint8_t>({2, 5, 7, 3}) { }
 };
 REGISTER_TEST(inout, TestInOutU8)
 
 
-struct TestInOutS8: public TestCase {
-    virtual void test() override {
-        Cerealiser cerealiser;
-        const std::vector<int8_t> ins{-2, -5, -7, 3};
-        for(const auto in: ins) cerealiser << in;
-        Decerealiser decerealiser(cerealiser.getBytes());
-        std::vector<int8_t> outs(4);
-        decerealiser >> outs[0] >> outs[1] >> outs[2] >> outs[3];
-        checkEqual(ins, outs);
-    }
+struct TestInOutS8: public TestInOut<int8_t> {
+    TestInOutS8():TestInOut<int8_t>({-2, -5, 7, 3, -9}) { }
 };
 REGISTER_TEST(inout, TestInOutS8)
