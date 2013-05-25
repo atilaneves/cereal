@@ -25,6 +25,10 @@ protected:
 
     void handle(uint8_t& val);
     void handle(int8_t& val);
+    void handle(uint16_t& val);
+    void handle(int16_t& val);
+    void handle(uint32_t& val);
+    void handle(int32_t& val);
     virtual void handleByte(uint8_t& val) = 0;
 };
 
