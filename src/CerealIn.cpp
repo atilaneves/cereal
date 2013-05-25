@@ -2,7 +2,7 @@
 
 
 void CerealIn::handleUInt8(uint8_t val) {
-    (void)val;
+    _bytes.push_back(val);
 }
 
 CerealIn& CerealIn::operator<<(uint8_t val) {
