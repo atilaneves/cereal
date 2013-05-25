@@ -14,10 +14,6 @@ public:
     Cereal& operator=(const Cereal&) = delete;
     virtual ~Cereal();
 
-    void handleInt8(int8_t val);
-    void handleUInt16(uint16_t val);
-    void handleInt16(int16_t val);
-    void handleUInt32(uint32_t val);
     const Bytes& getBytes() const { return _bytes; }
 
 protected:
@@ -27,10 +23,11 @@ protected:
     Cereal();
     Cereal(const Bytes& bytes);
 
+    void handle(int8_t& val);
+
 private:
 
-
-    virtual void handleUInt8(uint8_t val) = 0;
+    virtual void handle(uint8_t& val) = 0;
 };
 
 

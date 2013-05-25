@@ -1,7 +1,7 @@
 #ifndef CEREAL_ALL
 #define CEREAL_ALL_
 
-#include "CerealIn.hpp"
-#include "CerealOut.hpp"
+#include "Cerealiser.hpp"
+#include "Decerealiser.hpp"
 
 #endif
