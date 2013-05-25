@@ -28,15 +28,15 @@ struct TestInOutU8: public TestCase {
 REGISTER_TEST(inout, TestInOutU8)
 
 
-// struct TestInOutS8: public TestCase {
-//     virtual void test() override {
-//         Cerealiser cerealiser;
-//         const std::vector<int8_t> ins{-2, -5, -7, 3};
-//         for(const auto in: ins) cerealiser << in;
-//         Decerealiser decerealiser(cerealiser.getBytes());
-//         std::vector<int8_t> outs(4);
-//         decerealiser >> outs[0] >> outs[1] >> outs[2] >> outs[3];
-//         checkEqual(ins, outs);
-//     }
-// };
-// REGISTER_TEST(inout, TestInOutS8)
+struct TestInOutS8: public TestCase {
+    virtual void test() override {
+        Cerealiser cerealiser;
+        const std::vector<int8_t> ins{-2, -5, -7, 3};
+        for(const auto in: ins) cerealiser << in;
+        Decerealiser decerealiser(cerealiser.getBytes());
+        std::vector<int8_t> outs(4);
+        decerealiser >> outs[0] >> outs[1] >> outs[2] >> outs[3];
+        checkEqual(ins, outs);
+    }
+};
+REGISTER_TEST(inout, TestInOutS8)

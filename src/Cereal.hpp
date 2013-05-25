@@ -23,11 +23,9 @@ protected:
     Cereal();
     Cereal(const Bytes& bytes);
 
+    void handle(uint8_t& val);
     void handle(int8_t& val);
-
-private:
-
-    virtual void handle(uint8_t& val) = 0;
+    virtual void handleByte(uint8_t& val) = 0;
 };
 
 

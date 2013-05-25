@@ -9,15 +9,16 @@ public:
 
     template<typename T>
     Cerealiser& operator<<(const T& val) {
-        handle(const_cast<T&>(val)); //ok: handle doesn't modify anything
+        Cereal::handle(const_cast<T&>(val)); //ok: handle doesn't modify anything
         return *this;
     }
 
 private:
 
-    virtual void handle(uint8_t& val) override;
+    virtual void handleByte(uint8_t& val) override;
 };
 
+using Cerealizer = Cerealiser; //for people who can't spell :P
 
 
 #endif // CEREALIN_H

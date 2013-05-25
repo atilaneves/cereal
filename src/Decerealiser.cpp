@@ -6,6 +6,6 @@ Decerealiser::Decerealiser(const Bytes& bytes):
 
 }
 
-void Decerealiser::handle(uint8_t& val) {
+void Decerealiser::handleByte(uint8_t& val) {
     val = *_iterator++;
 }

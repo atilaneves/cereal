@@ -12,7 +12,7 @@ public:
 
     template<typename T>
     Decerealiser& operator>>(T& val) {
-        handle(val);
+        Cereal::handle(val);
         return *this;
     }
 
@@ -20,7 +20,7 @@ private:
 
     Bytes::const_iterator _iterator;
 
-    virtual void handle(uint8_t& val) override;
+    virtual void handleByte(uint8_t& val) override;
 
 };
 
