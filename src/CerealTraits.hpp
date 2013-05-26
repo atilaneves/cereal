@@ -15,6 +15,11 @@ namespace CerealTraits {
     struct MakeUnsigned<bool> {
         using Type = uint8_t;
     };
+
+    template<>
+    struct MakeUnsigned<double> {
+        using Type = uint64_t;
+    };
 }
 
 

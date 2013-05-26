@@ -17,13 +17,19 @@ public:
     Cereal& operator=(const Cereal&) = delete;
     virtual ~Cereal();
 
-    void handle(bool& val);
-    void handle(uint8_t& val);
-    void handle(int8_t& val);
-    void handle(uint16_t& val);
-    void handle(int16_t& val);
-    void handle(uint32_t& val);
-    void handle(int32_t& val);
+    void cereal(bool& val);
+    void cereal(uint8_t& val);
+    void cereal(int8_t& val);
+    void cereal(uint16_t& val);
+    void cereal(int16_t& val);
+    void cereal(uint32_t& val);
+    void cereal(int32_t& val);
+    void cereal(uint64_t& val);
+    void cereal(int64_t& val);
+    void cereal(double& val);
+
+    template<typename I, typename T, typename A>
+    void cereal(std::vector<T, A>& vector);
 
     const Bytes& getBytes() const { return _bytes; }
 
@@ -38,13 +44,35 @@ protected:
 private:
 
     template<typename T>
-    void handleReinterpret(T& val) {
+    void cerealReinterpret(T& val) {
         const auto uptr = reinterpret_cast<typename CerealTraits::MakeUnsigned<T>::Type*>(&val);
-        handle(*uptr);
+        cereal(*uptr);
     }
 
-    virtual void handleByte(uint8_t& val) = 0;
+    virtual void cerealByte(uint8_t& val) = 0;
 };
+
+template<typename I, typename V>
+static void maybeResizeVector(Cereal& cereal, V& vec) {
+    I num;
+    cereal.cereal(num);
+    if(vec.size() != num) { //writing to vector, resize it
+        vec.resize(num);
+    }
+}
+
+#include <iostream>
+template<typename I, typename T, typename A>
+void Cereal::cereal(std::vector<T, A>& vector) {
+    I num = vector.size();
+    cereal(num);
+    if(vector.size() != num) { //writing to vector, resize it
+        vector.resize(num);
+    }
+    for(auto& t: vector) {
+        t.cerealise(*this);
+    }
+}
 
 
 #endif // CEREAL_HPP_

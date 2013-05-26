@@ -9,7 +9,7 @@ public:
 
     template<typename T>
     Cerealiser& operator<<(const T& val) {
-        Cereal::handle(const_cast<T&>(val)); //ok: handle doesn't modify anything
+        Cereal::cereal(const_cast<T&>(val)); //ok: cereal doesn't modify anything
         return *this;
     }
 
@@ -18,9 +18,15 @@ public:
         *this << val;
     }
 
+    template<typename I, typename T, typename A>
+    void cereal(const std::vector<T, A>& vector) {
+        Cereal::cereal<I>(const_cast<std::vector<T, A>&>(vector)); //ok: cereal doesn't modify anything
+    }
+
+
 private:
 
-    virtual void handleByte(uint8_t& val) override;
+    virtual void cerealByte(uint8_t& val) override;
 };
 
 using Cerealizer = Cerealiser; //for people who can't spell :P

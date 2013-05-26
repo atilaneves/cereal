@@ -27,7 +27,7 @@ struct TestInOut: public TestCase {
         std::vector<T> outs(_ins.size());
         for(auto& out: outs) decerealiser >> out;
 
-        checkEqual(_ins, outs);
+        checkEqual(outs, _ins);
     }
 };
 
@@ -65,3 +65,56 @@ struct TestInOutS32: public TestInOut<int32_t> {
     TestInOutS32():TestInOut<int32_t>({-std::numeric_limits<uint32_t>::max(), -5, 7, 3, -1}) { }
 };
 REGISTER_TEST(32, TestInOutS32)
+
+struct TestInOutS64: public TestInOut<int64_t> {
+    TestInOutS64():TestInOut<int64_t>({-std::numeric_limits<uint64_t>::max(),
+                static_cast<int64_t>(std::numeric_limits<uint32_t>::max()) + 1}) { }
+};
+REGISTER_TEST(64, TestInOutS64)
+
+
+struct Double: public TestInOut<double> {
+    Double():TestInOut<double>({1.0, -2.0, 3456789.0}) { }
+};
+REGISTER_TEST(nonints, Double)
+
+
+struct Foo {
+    uint16_t i16;
+    int32_t i32;
+    double d;
+    Foo():i16(), i32(), d() { }
+    Foo(uint16_t _i16, int32_t _i32, double _d):i16(_i16), i32(_i32), d(_d) { }
+    bool operator==(const Foo& f) const {
+        return i16 == f.i16 && i32 == f.i32 && d == f.d;
+    }
+    void cerealise(Cereal& cereal) {
+        cereal.cereal(i16);
+        cereal.cereal(i32);
+        cereal.cereal(d);
+    }
+};
+
+std::ostream& operator<<(std::ostream& o, const std::vector<Foo>& foos) {
+    for(const auto& foo: foos)
+        o << "Foo{i16: " <<  std::to_string(foo.i16) <<
+            ", i32: " << std::to_string(foo.i32) << ", d: " << std::to_string(foo.d) << "} ";
+    return o;
+}
+
+struct vector: public TestCase {
+    virtual void test() override {
+        const std::vector<Foo> foos{{0xffff, 79999, 3.0}, {3, -99999, 4.0}};
+        Cerealiser cerealiser;
+        cerealiser.cereal<uint8_t>(foos);
+        checkEqual(foos.size(), 2);
+
+        Decerealiser decerealiser(cerealiser.getBytes());
+        std::vector<Foo> outs;
+        decerealiser.cereal<uint8_t>(outs);
+
+        checkEqual(outs.size(), foos.size());
+        checkEqual(outs, foos);
+    }
+};
+REGISTER_TEST(vector, vector)
