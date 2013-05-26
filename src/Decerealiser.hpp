@@ -8,12 +8,20 @@
 class Decerealiser: public Cereal {
 public:
 
-    Decerealiser(const Bytes& bytes);
+    template<typename T> Decerealiser(const T& bytes):
+        Cereal(bytes), _iterator(std::begin(bytes)) { }
 
     template<typename T>
     Decerealiser& operator>>(T& val) {
         Cereal::handle(val);
         return *this;
+    }
+
+    template<typename T>
+    T read() {
+        T val;
+        *this >> val;
+        return val;
     }
 
 private:

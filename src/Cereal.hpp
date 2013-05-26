@@ -1,8 +1,11 @@
 #ifndef CEREAL_HPP_
 #define CEREAL_HPP_
 
+#include "CerealTraits.hpp"
 #include <vector>
 #include <stdint.h>
+#include <algorithm>
+
 
 class Cereal {
 public:
@@ -14,6 +17,14 @@ public:
     Cereal& operator=(const Cereal&) = delete;
     virtual ~Cereal();
 
+    void handle(bool& val);
+    void handle(uint8_t& val);
+    void handle(int8_t& val);
+    void handle(uint16_t& val);
+    void handle(int16_t& val);
+    void handle(uint32_t& val);
+    void handle(int32_t& val);
+
     const Bytes& getBytes() const { return _bytes; }
 
 protected:
@@ -21,14 +32,17 @@ protected:
     Bytes _bytes;
 
     Cereal();
-    Cereal(const Bytes& bytes);
+    template<typename T> Cereal(const T& bytes):
+        _bytes(std::begin(bytes), std::end(bytes)) { }
 
-    void handle(uint8_t& val);
-    void handle(int8_t& val);
-    void handle(uint16_t& val);
-    void handle(int16_t& val);
-    void handle(uint32_t& val);
-    void handle(int32_t& val);
+private:
+
+    template<typename T>
+    void handleReinterpret(T& val) {
+        const auto uptr = reinterpret_cast<typename CerealTraits::MakeUnsigned<T>::Type*>(&val);
+        handle(*uptr);
+    }
+
     virtual void handleByte(uint8_t& val) = 0;
 };
 

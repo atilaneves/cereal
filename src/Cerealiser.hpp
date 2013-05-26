@@ -13,6 +13,11 @@ public:
         return *this;
     }
 
+    template<typename T>
+    void write(const T& val) {
+        *this << val;
+    }
+
 private:
 
     virtual void handleByte(uint8_t& val) override;
