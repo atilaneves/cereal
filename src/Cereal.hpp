@@ -61,7 +61,6 @@ static void maybeResizeVector(Cereal& cereal, V& vec) {
     }
 }
 
-#include <iostream>
 template<typename I, typename T, typename A>
 void Cereal::cereal(std::vector<T, A>& vector) {
     I num = vector.size();
