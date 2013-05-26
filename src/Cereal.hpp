@@ -49,14 +49,6 @@ protected:
 private:
 
     template<typename T>
-    void handleReinterpret(T& val) {
-        const auto uptr = reinterpret_cast<uint8_t*>(&val);
-        handleByte(*uptr);
-    }
-
-private:
-
-    template<typename T>
     void grainReinterpret(T& val) {
         const auto uptr = reinterpret_cast<typename CerealTraits::MakeUnsigned<T>::Type*>(&val);
         grain(*uptr);
