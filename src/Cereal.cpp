@@ -11,6 +11,8 @@ void Cereal::grain(bool& val) {
     grainReinterpret(val);
 }
 
+}
+
 void Cereal::grain(uint8_t& val) {
     grainByte(val);
 }
