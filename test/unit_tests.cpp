@@ -89,9 +89,9 @@ struct Foo {
         return i16 == f.i16 && i32 == f.i32 && d == f.d;
     }
     void cerealise(Cereal& cereal) {
-        cereal.cereal(i16);
-        cereal.cereal(i32);
-        cereal.cereal(d);
+        cereal.grain(i16);
+        cereal.grain(i32);
+        cereal.grain(d);
     }
 };
 
@@ -106,12 +106,12 @@ struct vector: public TestCase {
     virtual void test() override {
         const std::vector<Foo> foos{{0xffff, 79999, 3.0}, {3, -99999, 4.0}};
         Cerealiser cerealiser;
-        cerealiser.cereal<uint8_t>(foos);
+        cerealiser.grain<uint8_t>(foos);
         checkEqual(foos.size(), 2);
 
         Decerealiser decerealiser(cerealiser.getBytes());
         std::vector<Foo> outs;
-        decerealiser.cereal<uint8_t>(outs);
+        decerealiser.grain<uint8_t>(outs);
 
         checkEqual(outs.size(), foos.size());
         checkEqual(outs, foos);

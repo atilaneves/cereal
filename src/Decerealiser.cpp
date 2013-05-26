@@ -1,5 +1,5 @@
 #include "Decerealiser.hpp"
 
-void Decerealiser::cerealByte(uint8_t& val) {
+void Decerealiser::grainByte(uint8_t& val) {
     val = *_iterator++;
 }

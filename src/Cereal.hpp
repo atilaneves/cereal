@@ -17,19 +17,19 @@ public:
     Cereal& operator=(const Cereal&) = delete;
     virtual ~Cereal();
 
-    void cereal(bool& val);
-    void cereal(uint8_t& val);
-    void cereal(int8_t& val);
-    void cereal(uint16_t& val);
-    void cereal(int16_t& val);
-    void cereal(uint32_t& val);
-    void cereal(int32_t& val);
-    void cereal(uint64_t& val);
-    void cereal(int64_t& val);
-    void cereal(double& val);
+    void grain(bool& val);
+    void grain(uint8_t& val);
+    void grain(int8_t& val);
+    void grain(uint16_t& val);
+    void grain(int16_t& val);
+    void grain(uint32_t& val);
+    void grain(int32_t& val);
+    void grain(uint64_t& val);
+    void grain(int64_t& val);
+    void grain(double& val);
 
     template<typename I, typename T, typename A>
-    void cereal(std::vector<T, A>& vector);
+    void grain(std::vector<T, A>& vector);
 
     const Bytes& getBytes() const { return _bytes; }
 
@@ -44,27 +44,27 @@ protected:
 private:
 
     template<typename T>
-    void cerealReinterpret(T& val) {
+    void grainReinterpret(T& val) {
         const auto uptr = reinterpret_cast<typename CerealTraits::MakeUnsigned<T>::Type*>(&val);
-        cereal(*uptr);
+        grain(*uptr);
     }
 
-    virtual void cerealByte(uint8_t& val) = 0;
+    virtual void grainByte(uint8_t& val) = 0;
 };
 
 template<typename I, typename V>
 static void maybeResizeVector(Cereal& cereal, V& vec) {
     I num;
-    cereal.cereal(num);
+    cereal.grain(num);
     if(vec.size() != num) { //writing to vector, resize it
         vec.resize(num);
     }
 }
 
 template<typename I, typename T, typename A>
-void Cereal::cereal(std::vector<T, A>& vector) {
+void Cereal::grain(std::vector<T, A>& vector) {
     I num = vector.size();
-    cereal(num);
+    grain(num);
     if(vector.size() != num) { //writing to vector, resize it
         vector.resize(num);
     }
