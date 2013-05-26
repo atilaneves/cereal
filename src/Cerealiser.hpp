@@ -19,10 +19,9 @@ public:
     }
 
     template<typename I, typename T, typename A>
-    void grain(const std::vector<T, A>& vector) {
+    void write(const std::vector<T, A>& vector) {
         Cereal::grain<I>(const_cast<std::vector<T, A>&>(vector)); //ok: grain doesn't modify anything
     }
-
 
 private:
 

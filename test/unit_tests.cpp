@@ -102,11 +102,16 @@ std::ostream& operator<<(std::ostream& o, const std::vector<Foo>& foos) {
     return o;
 }
 
-struct vector: public TestCase {
+struct FooScalar: public TestInOut<Foo> {
+    FooScalar():TestInOut<Foo>({{1, 2, 3.0}, {2, -4, 6.0}}) { }
+};
+REGISTER_TEST(scalar, FooScalar)
+
+struct FooVector: public TestCase {
     virtual void test() override {
         const std::vector<Foo> foos{{0xffff, 79999, 3.0}, {3, -99999, 4.0}};
         Cerealiser cerealiser;
-        cerealiser.grain<uint8_t>(foos);
+        cerealiser.write<uint8_t>(foos);
         checkEqual(foos.size(), 2);
 
         Decerealiser decerealiser(cerealiser.getBytes());
@@ -117,4 +122,4 @@ struct vector: public TestCase {
         checkEqual(outs, foos);
     }
 };
-REGISTER_TEST(vector, vector)
+REGISTER_TEST(vector, FooVector)

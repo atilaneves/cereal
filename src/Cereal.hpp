@@ -31,6 +31,11 @@ public:
     template<typename I, typename T, typename A>
     void grain(std::vector<T, A>& vector);
 
+    template<typename T>
+    void grain(T& t) {
+        t.cerealise(*this);
+    }
+
     const Bytes& getBytes() const { return _bytes; }
 
 protected:
