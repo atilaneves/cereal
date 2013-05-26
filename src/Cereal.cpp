@@ -1,7 +1,5 @@
 #include "Cereal.hpp"
 
-Cereal::Cereal(const Bytes& bytes):_bytes(bytes) {
-}
 
 Cereal::Cereal() {
 }
@@ -9,13 +7,16 @@ Cereal::Cereal() {
 Cereal::~Cereal() {
 }
 
+void Cereal::handle(bool& val) {
+    handleReinterpret(val);
+}
+
 void Cereal::handle(uint8_t& val) {
     handleByte(val);
 }
 
 void Cereal::handle(int8_t& val) {
-    const auto uptr = reinterpret_cast<uint8_t*>(&val);
-    handleByte(*uptr);
+    handleReinterpret(val);
 }
 
 void Cereal::handle(uint16_t& val) {
@@ -27,8 +28,7 @@ void Cereal::handle(uint16_t& val) {
 }
 
 void Cereal::handle(int16_t& val) {
-    const auto uptr = reinterpret_cast<uint16_t*>(&val);
-    handle(*uptr);
+    handleReinterpret(val);
 }
 
 void Cereal::handle(uint32_t& val) {
@@ -44,6 +44,5 @@ void Cereal::handle(uint32_t& val) {
 }
 
 void Cereal::handle(int32_t& val) {
-    const auto uptr = reinterpret_cast<uint32_t*>(&val);
-    handle(*uptr);
+    handleReinterpret(val);
 }
