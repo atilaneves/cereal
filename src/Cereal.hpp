@@ -25,6 +25,7 @@ public:
     void grain(bool& val);
     void grain(uint8_t& val);
     void grain(int8_t& val);
+    void grain(char& val);
     void grain(uint16_t& val);
     void grain(int16_t& val);
     void grain(uint32_t& val);
@@ -36,6 +37,7 @@ public:
     template<typename I = uint16_t, typename T, typename A>
     void grain(std::vector<T, A>& vector);
 
+    template<typename I = uint16_t>
     void grain(std::string& val);
 
     template<typename T>
@@ -74,14 +76,27 @@ static void maybeResizeVector(Cereal& cereal, V& vec) {
 }
 
 template<typename I, typename T, typename A>
-void Cereal::grain(std::vector<T, A>& vector) {
-    I num = vector.size();
+void Cereal::grain(std::vector<T, A>& val) {
+    I num = val.size();
     grain(num);
-    if(vector.size() != num) { //writing to vector, resize it
-        vector.resize(num);
+    if(val.size() != num) { //writing to val, resize it
+        val.resize(num);
     }
-    for(auto& t: vector) {
+    for(auto& t: val) {
         t.cerealise(*this);
+    }
+}
+
+
+template<typename I>
+void Cereal::grain(std::string& val) {
+    I num = val.size();
+    grain(num);
+    if(val.size() != num) { //writing to val, resize it
+        val.resize(num);
+    }
+    for(auto& t: val) {
+        grain(t);
     }
 }
 

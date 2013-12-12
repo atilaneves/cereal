@@ -19,6 +19,10 @@ void Cereal::grain(int8_t& val) {
     grainReinterpret(val);
 }
 
+void Cereal::grain(char& val) {
+    grainReinterpret(val);
+}
+
 void Cereal::grain(uint16_t& val) {
     uint8_t valh = (val >> 8);
     uint8_t vall = val & 0xff;

@@ -136,3 +136,4 @@ struct TestString: public TestCase {
         checkEqual(dec.read<std::string>(), str);
     }
 };
+REGISTER_TEST(string, TestString)
