@@ -21,7 +21,13 @@ public:
     virtual ~Cereal();
 
     virtual Type getType() const = 0;
-    virtual void grainBits(uint32_t& val, int bits) = 0;
+
+    template<typename T>
+    void grainBits(T& val, int bits) {
+        uint32_t realVal = val;
+        grainBitsImpl(realVal, bits);
+        val = static_cast<T>(realVal);
+    }
 
     void grain(bool& val);
     void grain(uint8_t& val);
@@ -65,6 +71,7 @@ private:
     }
 
     virtual void grainByte(uint8_t& val) = 0;
+    virtual void grainBitsImpl(uint32_t& val, int bits) = 0;
 };
 
 template<typename I, typename V>

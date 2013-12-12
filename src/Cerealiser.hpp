@@ -28,7 +28,6 @@ public:
     }
 
     void writeBits(int value, int bits);
-    virtual void grainBits(uint32_t& val, int bits) override { writeBits(val, bits); }
 
 private:
 
@@ -36,6 +35,7 @@ private:
     int _bitIndex;
 
     virtual void grainByte(uint8_t& val) override;
+    virtual void grainBitsImpl(uint32_t& val, int bits) override { writeBits(val, bits); }
 };
 
 using Cerealizer = Cerealiser; //for people who can't spell :P
