@@ -29,6 +29,7 @@ public:
     }
 
     uint32_t readBits(int bits);
+    virtual void grainBits(uint32_t& val, int bits) override { val = readBits(bits); }
 
 private:
 

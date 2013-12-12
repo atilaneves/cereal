@@ -21,6 +21,7 @@ public:
     virtual ~Cereal();
 
     virtual Type getType() const = 0;
+    virtual void grainBits(uint32_t& val, int bits) = 0;
 
     void grain(bool& val);
     void grain(uint8_t& val);

@@ -28,6 +28,7 @@ public:
     }
 
     void writeBits(int value, int bits);
+    virtual void grainBits(uint32_t& val, int bits) override { writeBits(val, bits); }
 
 private:
 
