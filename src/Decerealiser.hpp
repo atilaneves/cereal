@@ -8,6 +8,8 @@
 class Decerealiser: public Cereal {
 public:
 
+    virtual Type getType() const { return Cereal::Type::Read; }
+
     template<typename T> Decerealiser(const T& bytes):
         Cereal(bytes), _iterator(std::begin(bytes)) { }
 

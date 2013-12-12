@@ -10,12 +10,16 @@
 class Cereal {
 public:
 
+    enum class Type { Write, Read };
+
     using Byte = unsigned char;
     using Bytes = std::vector<Byte>;
 
     Cereal(const Cereal&) = delete;
     Cereal& operator=(const Cereal&) = delete;
     virtual ~Cereal();
+
+    virtual Type getType() const = 0;
 
     void grain(bool& val);
     void grain(uint8_t& val);

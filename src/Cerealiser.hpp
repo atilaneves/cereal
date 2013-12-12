@@ -7,6 +7,8 @@
 class Cerealiser: public Cereal {
 public:
 
+    virtual Type getType() const { return Cereal::Type::Write; }
+
     template<typename T>
     Cerealiser& operator<<(const T& val) {
         Cereal::grain(const_cast<T&>(val)); //ok: grain doesn't modify anything
