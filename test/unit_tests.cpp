@@ -112,7 +112,7 @@ struct FooVector: public TestCase {
         const std::vector<Foo> foos{{0xffff, 79999, 3.0}, {3, -99999, 4.0}};
         Cerealiser cerealiser;
         cerealiser.write<uint8_t>(foos);
-        checkEqual(foos.size(), 2);
+        checkEqual(int(foos.size()), 2);
 
         Decerealiser decerealiser(cerealiser.getBytes());
         std::vector<Foo> outs;
@@ -130,7 +130,7 @@ struct TestString: public TestCase {
         const std::string str = "foobar";
         Cerealiser enc;
         enc << str;
-        checkEqual(enc.getBytes(), std::vector<uint8_t>{0, 6, 'f', 'o', 'o', 'b', 'a', 'r'});
+        checkEqual(enc.getBytes(), (std::vector<uint8_t>{0, 6, 'f', 'o', 'o', 'b', 'a', 'r'}));
 
         Decerealiser dec(enc.getBytes());
         checkEqual(dec.read<std::string>(), str);

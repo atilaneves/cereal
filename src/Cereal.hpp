@@ -3,6 +3,7 @@
 
 #include "CerealTraits.hpp"
 #include <vector>
+#include <string>
 #include <stdint.h>
 #include <algorithm>
 
@@ -32,8 +33,10 @@ public:
     void grain(int64_t& val);
     void grain(double& val);
 
-    template<typename I, typename T, typename A>
+    template<typename I = uint16_t, typename T, typename A>
     void grain(std::vector<T, A>& vector);
+
+    void grain(std::string& val);
 
     template<typename T>
     void grain(T& t) {
