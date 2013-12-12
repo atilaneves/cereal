@@ -8,6 +8,8 @@
 class Decerealiser: public Cereal {
 public:
 
+    Decerealiser();
+
     virtual Type getType() const { return Cereal::Type::Read; }
 
     template<typename T> Decerealiser(const T& bytes):
@@ -26,12 +28,16 @@ public:
         return val;
     }
 
+    uint32_t readBits(int bits);
+
 private:
 
     Bytes::const_iterator _iterator;
+    uint8_t _currentByte;
+    int _bitIndex;
 
     virtual void grainByte(uint8_t& val) override;
-
+    uint32_t readBitsHelper(int bits);
 };
 
 

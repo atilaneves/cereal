@@ -7,6 +7,8 @@
 class Cerealiser: public Cereal {
 public:
 
+    Cerealiser();
+
     virtual Type getType() const { return Cereal::Type::Write; }
 
     template<typename T>
@@ -25,7 +27,12 @@ public:
         Cereal::grain<I>(const_cast<std::vector<T, A>&>(vector)); //ok: grain doesn't modify anything
     }
 
+    void writeBits(int value, int bits);
+
 private:
+
+    uint8_t _currentByte;
+    int _bitIndex;
 
     virtual void grainByte(uint8_t& val) override;
 };
