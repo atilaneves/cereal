@@ -123,3 +123,16 @@ struct FooVector: public TestCase {
     }
 };
 REGISTER_TEST(vector, FooVector)
+
+
+struct TestString: public TestCase {
+    virtual void test() override {
+        const std::string str = "foobar";
+        Cerealiser enc;
+        enc << str;
+        checkEqual(enc.getBytes(), std::vector<uint8_t>{0, 6, 'f', 'o', 'o', 'b', 'a', 'r'});
+
+        Decerealiser dec(enc.getBytes());
+        checkEqual(dec.read<std::string>(), str);
+    }
+};
