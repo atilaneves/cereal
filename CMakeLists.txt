@@ -44,7 +44,10 @@ add_library(cereal ${CEREAL_SRCS})
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   include_directories(unit-thread/lib)
   include_directories(src)
-  file(GLOB TEST_SRCS test/*.cpp unit-thread/lib/*.cpp unit-thread/example/example_main.cpp)
+  file(GLOB TEST_SRCS
+    ${CMAKE_SOURCE_DIR}/test/*.cpp
+    ${CMAKE_SOURCE_DIR}/unit-thread/lib/*.cpp
+    ${CMAKE_SOURCE_DIR}/unit-thread/example/example_main.cpp)
   add_executable(ut ${TEST_SRCS})
   target_link_libraries(ut cereal)
   target_link_libraries(ut ${Boost_LIBRARIES})

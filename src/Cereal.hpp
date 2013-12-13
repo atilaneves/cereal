@@ -24,7 +24,7 @@ public:
 
     template<typename T>
     void grainBits(T& val, int bits) {
-        uint32_t realVal = val;
+        auto realVal = static_cast<uint32_t>(val);
         grainBitsImpl(realVal, bits);
         val = static_cast<T>(realVal);
     }
