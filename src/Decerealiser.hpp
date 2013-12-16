@@ -13,7 +13,11 @@ public:
     virtual Type getType() const { return Cereal::Type::Read; }
 
     template<typename T> Decerealiser(const T& bytes):
-        Cereal(bytes), _iterator(std::begin(_bytes)), _originalBytes(std::begin(bytes), std::end(bytes)) {
+        Cereal(bytes),
+        _iterator(std::begin(_bytes)),
+        _currentByte(),
+        _bitIndex(),
+        _originalBytes(std::begin(bytes), std::end(bytes)) {
 
     }
 
