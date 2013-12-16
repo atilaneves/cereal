@@ -137,3 +137,17 @@ struct TestString: public TestCase {
     }
 };
 REGISTER_TEST(string, TestString)
+
+
+struct DecodeBytes: public TestCase {
+    void test() override {
+        Decerealiser cereal(std::vector<uint8_t>{0, 1, 4, 5});
+        //checkEqual(cereal.read<uint8_t>(), 0);
+        int foo = cereal.read<uint8_t>();
+        checkEqual(foo, 0);
+        checkEqual(cereal.read<uint8_t>(), 1);
+        checkEqual(cereal.read<uint8_t>(), 4);
+        checkEqual(cereal.read<uint8_t>(), 5);
+    }
+};
+REGISTER_TEST(decode, DecodeBytes)

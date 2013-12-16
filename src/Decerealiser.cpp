@@ -1,5 +1,6 @@
 #include "Decerealiser.hpp"
 
+
 Decerealiser::Decerealiser():_currentByte(0), _bitIndex(0) {
 
 }
@@ -32,4 +33,13 @@ uint32_t Decerealiser::readBitsHelper(int bits) {
 
     auto shift = _currentByte >> (bitsInByte - _bitIndex);
     return shift & (0xff >> (bitsInByte - bits));
+}
+
+
+void Decerealiser::reset() {
+    /**resets the deceraliser to read from the beginning again*/
+    _bitIndex = 0;
+    _currentByte = 0;
+    _bytes = _originalBytes;
+    _iterator = std::begin(_bytes);
 }
