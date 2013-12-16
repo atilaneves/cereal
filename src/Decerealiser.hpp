@@ -30,6 +30,8 @@ public:
         return val;
     }
 
+    template<typename T> T value() { return read<T>(); }
+
     uint32_t readBits(int bits);
     void reset();
 
