@@ -36,6 +36,12 @@ public:
     }
 
     template<typename T> T value() { return read<T>(); }
+    template<typename T, typename... A>
+    T* create(A... args) {
+        auto obj = new T(args...);
+        *this >> *obj;
+        return obj;
+    }
 
     uint32_t readBits(int bits);
     void reset();
