@@ -4,7 +4,7 @@
 
 #include "Cereal.hpp"
 #include <algorithm>
-
+#include <memory>
 
 class Decerealiser: public Cereal {
 public:
@@ -37,10 +37,10 @@ public:
 
     template<typename T> T value() { return read<T>(); }
     template<typename T, typename... A>
-    T* create(A... args) {
+    std::unique_ptr<T> create(A... args) {
         auto obj = new T(args...);
         *this >> *obj;
-        return obj;
+        return std::unique_ptr<T>{obj};
     }
 
     uint32_t readBits(int bits);
