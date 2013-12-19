@@ -52,6 +52,9 @@ public:
         t.cerealise(*this);
     }
 
+    template<typename T>
+    void grainRawArray(std::vector<T>& val);
+
     const Bytes& getBytes() const { return _bytes; }
 
 protected:
@@ -72,6 +75,7 @@ private:
 
     virtual void grainByte(uint8_t& val) = 0;
     virtual void grainBitsImpl(uint32_t& val, int bits) = 0;
+    virtual int bytesLeft() const = 0;
 };
 
 template<typename I, typename V>
@@ -107,6 +111,20 @@ void Cereal::grain(std::string& val) {
         grain(t);
     }
 }
+
+template<typename T>
+void Cereal::grainRawArray(std::vector<T>& val) {
+    if(getType() == Type::Read) {
+        val.resize(0);
+        while(bytesLeft()) {
+            val.resize(val.size() + 1);
+            grain(val[val.size() - 1]);
+        }
+    } else {
+        for(auto& v: val) grain(v);
+    }
+}
+
 
 
 #endif // CEREAL_HPP_

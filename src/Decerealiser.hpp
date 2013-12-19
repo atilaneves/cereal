@@ -3,6 +3,7 @@
 
 
 #include "Cereal.hpp"
+#include <algorithm>
 
 
 class Decerealiser: public Cereal {
@@ -48,6 +49,8 @@ private:
 
     virtual void grainByte(uint8_t& val) override;
     virtual void grainBitsImpl(uint32_t& val, int bits) override { val = readBits(bits); }
+    virtual int bytesLeft() const override { return std::distance(_iterator, std::end(_bytes)); }
+
     uint32_t readBitsHelper(int bits);
 };
 

@@ -36,6 +36,7 @@ private:
 
     virtual void grainByte(uint8_t& val) override;
     virtual void grainBitsImpl(uint32_t& val, int bits) override { writeBits(val, bits); }
+    virtual int bytesLeft() const override { return _bytes.size(); }
 };
 
 using Cerealizer = Cerealiser; //for people who can't spell :P
