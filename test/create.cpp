@@ -21,7 +21,7 @@ struct Foo {
 struct EncodeClass: public TestCase {
     void test() override {
         Decerealiser cereal(std::vector<uint8_t>{1, 4, 0, 3, 'f', 'o', 'o'});
-        auto foo = cereal.create<Foo>();
+        auto foo = cereal.createPtr<Foo>();
         checkEqual(foo->i1, 1);
         checkEqual(foo->i2, 4);
         checkEqual(foo->s, std::string("foo"));
