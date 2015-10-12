@@ -16,10 +16,20 @@ public:
     template<typename T> explicit Decerealiser(const T& bytes):
         Cereal(bytes),
         _iterator(std::begin(_bytes)),
+        _end(std::end(_bytes)),
+        _originalIterator(std::begin(_bytes)),
         _currentByte(),
-        _bitIndex(),
-        _originalBytes(std::begin(bytes), std::end(bytes)) {
+        _bitIndex() {
 
+    }
+
+    template<typename T> Decerealiser(const T& begin, const T& end):
+        Cereal(),
+        _iterator(begin),
+        _end(end),
+        _originalIterator(_iterator),
+        _currentByte(),
+        _bitIndex() {
     }
 
     template<typename T>
@@ -65,13 +75,14 @@ private:
 
     //Bytes _bytes;
     Bytes::const_iterator _iterator;
+    Bytes::const_iterator _end;
+    Bytes::const_iterator _originalIterator;
     uint8_t _currentByte;
     int _bitIndex;
-    Bytes _originalBytes;
 
     virtual void grainByte(uint8_t& val) override;
     virtual void grainBitsImpl(uint32_t& val, int bits) override { val = readBits(bits); }
-    virtual int bytesLeft() const override { return std::distance(_iterator, std::end(_bytes)); }
+    virtual int bytesLeft() const override { return std::distance(_iterator, _end); }
 
     uint32_t readBitsHelper(int bits);
 };

@@ -40,6 +40,5 @@ void Decerealiser::reset() {
     /**resets the deceraliser to read from the beginning again*/
     _bitIndex = 0;
     _currentByte = 0;
-    _bytes = _originalBytes;
-    _iterator = std::begin(_bytes);
+    _iterator = _originalIterator;
 }

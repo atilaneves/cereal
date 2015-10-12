@@ -93,3 +93,28 @@ struct DecodeBitsMultiByte: public TestCase {
     }
 };
 REGISTER_TEST(bits/decode, DecodeBitsMultiByte)
+
+
+struct DecodeBitsIter: public TestCase {
+    void test() override {
+        const auto bytes = std::vector<uint8_t>{0x9e, 0xea};
+        Decerealiser cereal(bytes.cbegin(), bytes.cend());
+        //1001 1110 1110 1010 or
+        //100 111 10111 01 010
+        //checkEqual(cereal.readBits(3), 4);
+        auto foo = cereal.readBits(3);
+        checkEqual(foo, 4);
+        checkEqual(cereal.readBits(3), 7);
+        checkEqual(cereal.readBits(5), 23);
+        checkEqual(cereal.readBits(2), 1);
+        checkEqual(cereal.readBits(3), 2);
+
+        cereal.reset();
+        checkEqual(cereal.readBits(3), 4);
+        checkEqual(cereal.readBits(3), 7);
+        checkEqual(cereal.readBits(5), 23);
+        checkEqual(cereal.readBits(2), 1);
+        checkEqual(cereal.readBits(3), 2);
+    }
+};
+REGISTER_TEST(bits/decode, DecodeBitsIter)
