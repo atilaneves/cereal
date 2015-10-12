@@ -62,7 +62,7 @@ protected:
     Bytes _bytes;
 
     Cereal();
-    template<typename T> Cereal(const T& bytes):
+    template<typename T> explicit Cereal(const T& bytes):
         _bytes(std::begin(bytes), std::end(bytes)) { }
 
 private:

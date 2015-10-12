@@ -9,7 +9,7 @@ public:
 
     Cerealiser();
 
-    virtual Type getType() const { return Cereal::Type::Write; }
+    virtual Type getType() const override { return Cereal::Type::Write; }
 
     template<typename T>
     Cerealiser& operator<<(const T& val) {
@@ -29,10 +29,13 @@ public:
 
     void writeBits(int value, int bits);
 
+    //const Bytes& getBytes() const { return _bytes; }
+
 private:
 
     uint8_t _currentByte;
     int _bitIndex;
+    //Bytes _bytes;
 
     virtual void grainByte(uint8_t& val) override;
     virtual void grainBitsImpl(uint32_t& val, int bits) override { writeBits(val, bits); }

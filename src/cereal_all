@@ -1,4 +1,4 @@
-#ifndef CEREAL_ALL
+#ifndef CEREAL_ALL_
 #define CEREAL_ALL_
 
 #include "Cerealiser.hpp"
